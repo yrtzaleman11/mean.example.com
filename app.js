@@ -3,15 +3,21 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var config = require('./config.dev');
+var mongoose = require('mongoose');
+
 
 // Test the file
 // console.log(config);
 
 var app = express();
+//Connect to MongoDB
+mongoose.connect(config.mongodb, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
