@@ -6,10 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-// var config = require('./config.dev');
+var config = require('./config.dev');
 
 // Test the file
-console.log(config);
+// console.log(config);
 
 var app = express();
 
