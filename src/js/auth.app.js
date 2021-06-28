@@ -120,11 +120,39 @@ function registrationForm(){
         load: function(){
           registrationForm();
           postRequest('registrationForm', '/api/auth/register');
+            validate.registrationForm();
+
         }
       }
-     
+    })();
+    // ~line 121
+var validate = (function() {
+
+  function confirmPasswordMatch() {
+
+    let pw = document.getElementById('password');
+    let cpw = document.getElementById('confirm_password');
+
+    if(pw.value !== cpw.value){
+      cpw.setCustomValidity("Passwords do not match");
+    } else {
+      cpw.setCustomValidity("");
+    }
+
+  }
+
+  return {
+    registrationForm: function(){
+      document.querySelector('#registrationForm input[type="submit"]').addEventListener(
+        'click',
+        function(){
+        confirmPasswordMatch();
+      });
+    }
+  }
+
+})();
 
 
-  })();
   
   authApp.load();
