@@ -20,6 +20,22 @@ var Users = new Schema({
     type: Boolean,
     default: false
   },
+  hash: {
+    type: String,
+    required: [
+      true,   
+      'There was a problem creating your password'
+    ]
+  },
+  salt: {
+    type: String,
+    required: [
+      true, 
+      'There was a problem creating your password'
+    ]
+  },
+
+
   created: {
     type: Date,
     default: Date.now
@@ -33,4 +49,4 @@ var Users = new Schema({
 //Add unique validation properties to the model
 Users.plugin(uniqueValidator);
 
-module.exports  = mongoose.model('Users', Users);
+module.exports  = mongoose.model('Users', Users);                                                      
