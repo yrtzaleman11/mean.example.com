@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  h1 Articles
+
+  for article in articles
+    hr
+
+    div.article
+      a(href='/articles/' +   article.slug)
+        h2= article.title
+        div!= article.description
+
