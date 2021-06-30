@@ -9,28 +9,22 @@ var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+var Users = require('./models/users');
+
+//~line 14
+var authRouter = require('./routes/auth');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var Users = require('./models/users');
-var articlesRouter = require('./routes/articles');
-var Articles = require('./models/articles');
-
-var authRouter = require('./routes/auth');
-var apiUsersRouter = require('./routes/api/users');
-var apiArticlesRouter = require('./routes/api/articles');
 var apiAuthRouter = require('./routes/api/auth');
+var apiUsersRouter = require('./routes/api/users');
 
 var app = express();
+
+//Call the config file
 var config = require('./config.dev');
 
-
-//Test the file
-// console.log(config);
-
 //Connect to MongoDB
-// mongoose.connect(config.mongodb, { useNewUrlParser: true });
-mongoose.connect(config.mongodb, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
-
+mongoose.connect(config.mongodb, { useNewUrlParser: true });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -77,36 +71,21 @@ passport.deserializeUser(function(user, done){
   done(null, user);
 });
 
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-  if ('OPTIONS' == req.method) {
-    res.send(200);
-  } else {
-    next();
-  }
-});
-
-//Working with Session Data
 app.use(function(req,res,next){
   res.locals.session = req.session;
   next();
 });
-
 //Session-based access control
 app.use(function(req,res,next){
   //Uncomment the following line to allow access to everything.
-  return next();
+  //return next();
 
   //Allow any endpoint that is an exact match. The server does not
   //have access to the hash so /auth and /auth#xxx would bot be considered 
   //exact matches.
   var whitelist = [
     '/',
-    '/auth',
-    '/articles'
+    '/auth'
   ];
 
   //req.url holds the current URL
@@ -121,8 +100,7 @@ app.use(function(req,res,next){
   //Allow access to dynamic endpoints
   var subs = [
     '/public/',
-    '/api/auth/',
-    '/articles'
+    '/api/auth/'
   ];
 
   //The query string provides a partial URL match beginning
@@ -145,21 +123,16 @@ app.use(function(req,res,next){
 });
 
 
-
 app.use('/auth', authRouter);
-app.use('/api/users', apiUsersRouter);
-app.use('/api/auth', apiAuthRouter);
-app.use('/api/articles', apiArticlesRouter);
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/articles', articlesRouter);
+app.use('/api/auth', apiAuthRouter);
+app.use('/api/users', apiUsersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 
 // error handler
 app.use(function(err, req, res, next) {
