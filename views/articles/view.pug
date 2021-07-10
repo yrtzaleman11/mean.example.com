@@ -1,13 +1,11 @@
 extends ../layout
-
 block content
-  h1 Articles
-
-  for article in articles
-    hr
-
-    div.article
-      a(href='/articles/' +   article.slug)
-        h2= article.title
-        div!= article.description
-
+  article
+    h1= article.title
+    div
+      - var date = new Date(article.published).toISOString().slice(0, 19).replace('T', ' ');
+      small Posted: #{date}
+    div!= article.body
+    a.button(href='/articles' onclick='viewIndex()') All Articles
+    
+  script(src='/dist/js/articles.app.min.js')

@@ -46,7 +46,6 @@ gulp.task('build-auth-js', function() {
   return merge(authApp);
 });
 
-//Build users Javascript
 gulp.task('build-users-js', function() {
 
   var userApp = gulp.src([
@@ -59,16 +58,16 @@ gulp.task('build-users-js', function() {
   return merge(userApp);
 });
 
-//Build articles javascript
-gulp.task('build-articles-js', function () {
-  var articlesApp = gulp.src([
+gulp.task('build-articles-js', function() {
+
+  var articleApp = gulp.src([
     'src/js/articles.app.js',
   ])
-    .pipe(concat('articles.app.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('public/dist/js'));
+  .pipe(concat('articles.app.min.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('public/dist/js'));
 
-    return merge(articlesApp);
+  return merge(articleApp);
 });
 
 //Recompile SCSS/JS on save

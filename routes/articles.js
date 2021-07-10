@@ -11,19 +11,19 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/:slug', function (req, res, next) {
+router.get('/view', function (req, res, next) {
   var articleSlug = req.params.slug;
   Articles.findOne({ 'slug': articleSlug }, function (err, article) {
     if (err) {
       return handleError(err);
     } else {
-      res.render('articles/view', { title: 'This Article', article: article });
+      res.render('articles/view', { title: 'xxx', article: article });
     }
   });
 });
 
 router.get('/app', function (req, res, next) {
-  res.render('articles/app', { title: 'Article Management' });
+    res.render('articles/app', { title: 'Article Management' });
 });
 
 module.exports = router;

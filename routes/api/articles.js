@@ -21,6 +21,7 @@ router.get('/:articleId', function (req, res) {
   });
 });
 
+
 router.post('/', function (req, res) {
   Articles.create(new Articles({
     title: req.body.title,
